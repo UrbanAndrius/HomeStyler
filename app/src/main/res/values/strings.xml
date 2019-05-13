@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">HomeStyler</string>
+
+    <string-array name="furniture_colors">
+        <item>red</item>
+        <item>green</item>
+        <item>blue</item>
+        <item>black</item>
+        <item>white</item>
+    </string-array>
+
+    <string-array name="furniture_types">
+        <item>type1</item>
+        <item>type2</item>
+    </string-array>
+
+</resources>
