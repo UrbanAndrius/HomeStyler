@@ -1,15 +1,16 @@
 package com.andrius.homestyler.ui;
 
+import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andrius.homestyler.R;
-import com.andrius.homestyler.entity.Furniture;
 import com.andrius.homestyler.util.ImageUtil;
 import com.andrius.homestyler.view_model.FurnitureViewModel;
+import com.github.florent37.runtimepermission.RuntimePermission;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,7 +48,7 @@ public class FurniturePreviewActivity extends AppCompatActivity {
 
         if (extras != null) {
             String color = extras.getString("color");
-            int price = extras.getInt("price");
+            double price = extras.getDouble("price");
             String type = extras.getString("type");
             String url = extras.getString("url");
             String image = extras.getString("image");
@@ -59,9 +60,10 @@ public class FurniturePreviewActivity extends AppCompatActivity {
             tvUrl.setText(url);
             ivPicture.setImageBitmap(ImageUtil.getBitmap(image));
 
-            btnOpenAr.setOnClickListener(view -> {
-                Log.e("TAG", "view in ar: ");
-            });
+            btnOpenAr.setOnClickListener(view -> RuntimePermission.askPermission(this,
+                    Manifest.permission.CAMERA)
+                    .onAccepted(result -> startActivity(new Intent(this, ArActivity.class)))
+                    .ask());
 
             btnDelete.setOnClickListener(view -> {
                 furnitureViewModel.delete(id);

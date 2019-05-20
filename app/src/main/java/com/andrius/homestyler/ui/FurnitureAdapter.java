@@ -25,11 +25,11 @@ public class FurnitureAdapter extends RecyclerView.Adapter<FurnitureAdapter.Hold
         void onFurnitureClick(Furniture furniture);
     }
 
-    public FurnitureAdapter(OnFurnitureClick furnitureClick) {
+    FurnitureAdapter(OnFurnitureClick furnitureClick) {
         this.furnitureClick = furnitureClick;
     }
 
-    public void setFurnitureList(List<Furniture> furnitureList) {
+    void setFurnitureList(List<Furniture> furnitureList) {
         this.furnitureList = furnitureList;
         notifyDataSetChanged();
     }
