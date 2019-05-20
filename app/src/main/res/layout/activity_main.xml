@@ -17,6 +17,11 @@
             android:layout_width="48dp"
             android:layout_height="48dp" />
 
+        <Button
+            android:id="@+id/btnTest"
+            android:layout_width="48dp"
+            android:layout_height="48dp" />
+
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

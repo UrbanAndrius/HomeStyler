@@ -3,6 +3,7 @@ package com.andrius.homestyler.ui;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -12,6 +13,8 @@ import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
+
+import java.io.File;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +28,12 @@ public class ArActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ar);
 
+        String path = Environment.getExternalStorageDirectory().getPath();
+
+        File model = new File(path + "/model.sfb");
+
+        Log.e("TAG", model.length() + "");
+
         if (Build.VERSION.SDK_INT > 25) {
             arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.arFragment);
 
@@ -32,7 +41,7 @@ public class ArActivity extends AppCompatActivity {
                 Anchor anchor = hitResult.createAnchor();
 
                 ModelRenderable.builder()
-                        .setSource(this, Uri.parse("model.sfb"))
+                        .setSource(this, Uri.fromFile(model))
                         .build()
                         .thenAccept(modelRenderable -> {
                             addModelToScene(anchor, modelRenderable);
