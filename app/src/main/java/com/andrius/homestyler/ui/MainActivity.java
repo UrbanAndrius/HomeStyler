@@ -24,8 +24,6 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView rvFurniture;
     @BindView(R.id.btnAddFurniture)
     Button btnAddFurniture;
-    @BindView(R.id.btnTest)
-    Button btnTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +31,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-
-        btnTest.setOnClickListener(view -> {
-
-        });
 
         RuntimePermission.askPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE)

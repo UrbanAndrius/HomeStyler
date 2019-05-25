@@ -15,6 +15,8 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class FurnitureAdapter extends RecyclerView.Adapter<FurnitureAdapter.Holder> {
 
@@ -45,10 +47,9 @@ public class FurnitureAdapter extends RecyclerView.Adapter<FurnitureAdapter.Hold
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         Furniture furniture = furnitureList.get(position);
         holder.itemView.setOnClickListener(view -> furnitureClick.onFurnitureClick(furniture));
-        holder.tvColor.setText(furniture.getColor());
-        holder.tvPrice.setText(String.valueOf(furniture.getPrice()));
+        holder.tvColor.setText(furniture.getColor().toUpperCase());
+        holder.tvPrice.setText(String.format("%.2f", furniture.getPrice()) + " €");
         holder.tvType.setText(furniture.getType());
-        holder.tvUrl.setText(furniture.getUrl());
         holder.ivPicture.setImageBitmap(ImageUtil.getBitmap(furniture.getImageBase64()));
     }
 
@@ -59,16 +60,18 @@ public class FurnitureAdapter extends RecyclerView.Adapter<FurnitureAdapter.Hold
 
     class Holder extends RecyclerView.ViewHolder {
 
-        TextView tvColor, tvPrice, tvType, tvUrl;
+        @BindView(R.id.tvColor)
+        TextView tvColor;
+        @BindView(R.id.tvPrice)
+        TextView tvPrice;
+        @BindView(R.id.tvType)
+        TextView tvType;
+        @BindView(R.id.ivPicture)
         ImageView ivPicture;
 
         Holder(@NonNull View itemView) {
             super(itemView);
-            tvColor = itemView.findViewById(R.id.tvColor);
-            tvPrice = itemView.findViewById(R.id.tvPrice);
-            tvType = itemView.findViewById(R.id.tvType);
-            tvUrl = itemView.findViewById(R.id.tvUrl);
-            ivPicture = itemView.findViewById(R.id.ivPicture);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

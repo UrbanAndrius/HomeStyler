@@ -1,35 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.MainActivity">
+    android:background="@color/lightGray"
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/toolBar"
+        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/colorAccent"
-        android:orientation="horizontal">
+        android:layout_height="60dp">
 
-        <Button
-            android:id="@+id/btnAddFurniture"
-            android:text="+"
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
-
-        <Button
-            android:id="@+id/btnTest"
-            android:text="test"
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
+        <TextView
+            android:textSize="26sp"
+            android:textColor="@color/white"
+            android:text="@string/app_name"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btnAddFurniture"
+        android:background="@drawable/circle_add"
+        android:elevation="6dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="32dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFurniture"
+        android:layout_below="@id/toolBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="30dp"
         android:paddingTop="8dp" />
 
-</LinearLayout>
+</RelativeLayout>
