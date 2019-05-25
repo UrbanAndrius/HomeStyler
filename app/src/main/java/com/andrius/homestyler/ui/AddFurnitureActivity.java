@@ -34,8 +34,11 @@ public class AddFurnitureActivity extends AppCompatActivity {
     Button btnSubmit;
     @BindView(R.id.btnUploadModel)
     Button btnUploadModel;
+    @BindView(R.id.btnUploadImage)
+    Button btnUploadImage;
 
     private File model;
+    private File image;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,6 +47,22 @@ public class AddFurnitureActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         FurnitureViewModel furnitureViewModel = ViewModelProviders.of(this).get(FurnitureViewModel.class);
+
+        btnUploadImage.setOnClickListener(view -> {
+            new ChooserDialog(this)
+                    .withChosenListener((path, pathFile) ->
+                    {
+                        MainActivity.log(new File(path).length() + "");
+                        File file = new File(path);
+                        if (file.getName().endsWith(".png") || file.getName().endsWith(".jpg") ||
+                                file.getName().endsWith(".jpeg")) {
+                            image = file;
+                        } else {
+                            Toast.makeText(this, "not image", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .build().show();
+        });
 
         btnUploadModel.setOnClickListener(view -> {
             new ChooserDialog(this)
@@ -63,14 +82,15 @@ public class AddFurnitureActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(view -> {
 
             if (etPrice.getText().toString().isEmpty() || etUrl.getText().toString().isEmpty() ||
-                    model == null) {
+                    model == null || image == null) {
                 Toast.makeText(this, "fill all", Toast.LENGTH_SHORT).show();
             } else {
                 String color = spColor.getSelectedItem().toString();
                 double price = Double.parseDouble(etPrice.getText().toString());
                 String type = spType.getSelectedItem().toString();
                 String url = etUrl.getText().toString();
-                String imageBase64 = ImageUtil.getImageString(getResources());
+
+                String imageBase64 = ImageUtil.getModelStringBase64(image);
 
                 String modelBase64 = ImageUtil.getModelStringBase64(model);
 
