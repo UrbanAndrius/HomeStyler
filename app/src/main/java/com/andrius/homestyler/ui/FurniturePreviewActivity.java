@@ -34,6 +34,8 @@ public class FurniturePreviewActivity extends AppCompatActivity {
     Button btnOpenAr;
     @BindView(R.id.btnDelete)
     Button btnDelete;
+    @BindView(R.id.btnBack)
+    Button btnBack;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +43,8 @@ public class FurniturePreviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_furniture_preview);
 
         ButterKnife.bind(this);
+
+        btnBack.setOnClickListener(view -> finish());
 
         FurnitureViewModel furnitureViewModel = ViewModelProviders.of(this).get(FurnitureViewModel.class);
 
@@ -51,8 +55,8 @@ public class FurniturePreviewActivity extends AppCompatActivity {
 
             furnitureViewModel.getById(id, furniture -> {
 
-                tvColor.setText(furniture.getColor());
-                tvPrice.setText(String.valueOf(furniture.getPrice()));
+                tvColor.setText(furniture.getColor().toUpperCase());
+                tvPrice.setText(furniture.getFormatedPrice());
                 tvType.setText(furniture.getType());
                 tvUrl.setText(furniture.getUrl());
                 ivPicture.setImageBitmap(ImageUtil.getBitmap(furniture.getImageBase64()));

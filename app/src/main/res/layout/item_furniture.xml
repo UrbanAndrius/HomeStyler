@@ -9,6 +9,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
+        android:gravity="center_vertical"
         android:layout_height="match_parent">
 
         <ImageView
@@ -40,6 +41,7 @@
             <TextView
                 android:id="@+id/tvType"
                 android:textSize="20sp"
+                android:layout_marginBottom="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

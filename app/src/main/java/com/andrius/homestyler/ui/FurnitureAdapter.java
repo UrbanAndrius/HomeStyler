@@ -48,7 +48,7 @@ public class FurnitureAdapter extends RecyclerView.Adapter<FurnitureAdapter.Hold
         Furniture furniture = furnitureList.get(position);
         holder.itemView.setOnClickListener(view -> furnitureClick.onFurnitureClick(furniture));
         holder.tvColor.setText(furniture.getColor().toUpperCase());
-        holder.tvPrice.setText(String.format("%.2f", furniture.getPrice()) + " €");
+        holder.tvPrice.setText(furniture.getFormatedPrice());
         holder.tvType.setText(furniture.getType());
         holder.ivPicture.setImageBitmap(ImageUtil.getBitmap(furniture.getImageBase64()));
     }

@@ -46,6 +46,10 @@ public class Furniture {
         return price;
     }
 
+    public String getFormatedPrice() {
+        return String.format("%.2f", getPrice()) + " €";
+    }
+
     public String getType() {
         return type;
     }
