@@ -1,9 +1,11 @@
 package com.andrius.homestyler.ui;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andrius.homestyler.R;
@@ -36,6 +38,12 @@ public class AddFurnitureActivity extends AppCompatActivity {
     Button btnUploadModel;
     @BindView(R.id.btnUploadImage)
     Button btnUploadImage;
+    @BindView(R.id.btnBack)
+    Button btnBack;
+    @BindView(R.id.tvImageFile)
+    TextView tvImageFile;
+    @BindView(R.id.tvModelFile)
+    TextView tvModelFile;
 
     private File model;
     private File image;
@@ -46,7 +54,18 @@ public class AddFurnitureActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_furniture);
         ButterKnife.bind(this);
 
+        btnBack.setOnClickListener(view -> finish());
+
         FurnitureViewModel furnitureViewModel = ViewModelProviders.of(this).get(FurnitureViewModel.class);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.furniture_colors, R.layout.spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
+        spColor.setAdapter(adapter);
+
+        adapter = ArrayAdapter.createFromResource(this,
+                R.array.furniture_types, R.layout.spinner_item);
+        spType.setAdapter(adapter);
 
         btnUploadImage.setOnClickListener(view -> {
             new ChooserDialog(this)
@@ -57,6 +76,7 @@ public class AddFurnitureActivity extends AppCompatActivity {
                         if (file.getName().endsWith(".png") || file.getName().endsWith(".jpg") ||
                                 file.getName().endsWith(".jpeg")) {
                             image = file;
+                            tvImageFile.setText(file.getName());
                         } else {
                             Toast.makeText(this, "not image", Toast.LENGTH_SHORT).show();
                         }
@@ -72,6 +92,7 @@ public class AddFurnitureActivity extends AppCompatActivity {
                         File file = new File(path);
                         if (file.getName().endsWith(".sfb")) {
                             model = file;
+                            tvModelFile.setText(file.getName());
                         } else {
                             Toast.makeText(this, "not model", Toast.LENGTH_SHORT).show();
                         }

@@ -22,16 +22,6 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnAddFurniture"
-        android:background="@drawable/circle_add"
-        android:elevation="6dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="32dp"
-        android:layout_width="48dp"
-        android:layout_height="48dp" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFurniture"
         android:layout_below="@id/toolBar"
@@ -40,5 +30,15 @@
         android:clipToPadding="false"
         android:paddingBottom="30dp"
         android:paddingTop="8dp" />
+
+    <Button
+        android:id="@+id/btnAddFurniture"
+        android:background="@drawable/circle_add"
+        android:elevation="6dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="32dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp" />
 
 </RelativeLayout>
