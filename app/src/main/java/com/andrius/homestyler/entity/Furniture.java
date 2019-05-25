@@ -19,12 +19,15 @@ public class Furniture {
 
     private String imageBase64;
 
-    public Furniture(String color, double price, String type, String url, String imageBase64) {
+    private String modelBase64;
+
+    public Furniture(String color, double price, String type, String url, String imageBase64, String modelBase64) {
         this.color = color;
         this.price = price;
         this.type = type;
         this.url = url;
         this.imageBase64 = imageBase64;
+        this.modelBase64 = modelBase64;
     }
 
     public void setId(int id) {
@@ -53,5 +56,9 @@ public class Furniture {
 
     public String getImageBase64() {
         return imageBase64;
+    }
+
+    public String getModelBase64() {
+        return modelBase64;
     }
 }

@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         btnTest.setOnClickListener(view -> {
-            Log.e("TAG", Environment.getExternalStorageDirectory().getPath());
+
         });
 
         RuntimePermission.askPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -47,11 +47,6 @@ public class MainActivity extends AppCompatActivity {
                     FurnitureAdapter furnitureAdapter = new FurnitureAdapter(furniture -> {
                         Intent intent = new Intent(this, FurniturePreviewActivity.class);
                         intent.putExtra("id", furniture.getId());
-                        intent.putExtra("color", furniture.getColor());
-                        intent.putExtra("price", furniture.getPrice());
-                        intent.putExtra("type", furniture.getType());
-                        intent.putExtra("url", furniture.getUrl());
-                        intent.putExtra("image", furniture.getImageBase64());
                         startActivity(intent);
                     });
 
@@ -63,5 +58,9 @@ public class MainActivity extends AppCompatActivity {
 
                     furnitureViewModel.getAllFurniture().observe(this, furnitureAdapter::setFurnitureList);
                 }).ask();
+    }
+
+    public static void log(String text) {
+        Log.e("TAG", text);
     }
 }

@@ -28,6 +28,12 @@
         android:layout_height="wrap_content" />
 
     <Button
+        android:id="@+id/btnUploadModel"
+        android:text="add model"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
         android:id="@+id/btnSubmit"
         android:text="submit"
         android:layout_width="wrap_content"

@@ -47,27 +47,29 @@ public class FurniturePreviewActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
-            String color = extras.getString("color");
-            double price = extras.getDouble("price");
-            String type = extras.getString("type");
-            String url = extras.getString("url");
-            String image = extras.getString("image");
             int id = extras.getInt("id");
 
-            tvColor.setText(color);
-            tvPrice.setText(String.valueOf(price));
-            tvType.setText(type);
-            tvUrl.setText(url);
-            ivPicture.setImageBitmap(ImageUtil.getBitmap(image));
+            furnitureViewModel.getById(id, furniture -> {
 
-            btnOpenAr.setOnClickListener(view -> RuntimePermission.askPermission(this,
-                    Manifest.permission.CAMERA)
-                    .onAccepted(result -> startActivity(new Intent(this, ArActivity.class)))
-                    .ask());
+                tvColor.setText(furniture.getColor());
+                tvPrice.setText(String.valueOf(furniture.getPrice()));
+                tvType.setText(furniture.getType());
+                tvUrl.setText(furniture.getUrl());
+                ivPicture.setImageBitmap(ImageUtil.getBitmap(furniture.getImageBase64()));
 
-            btnDelete.setOnClickListener(view -> {
-                furnitureViewModel.delete(id);
-                finish();
+                btnOpenAr.setOnClickListener(view -> RuntimePermission.askPermission(this,
+                        Manifest.permission.CAMERA)
+                        .onAccepted(result -> {
+                            Intent intent = new Intent(this, ArActivity.class);
+                            intent.putExtra("id", furniture.getId());
+                            startActivity(intent);
+                        })
+                        .ask());
+
+                btnDelete.setOnClickListener(view -> {
+                    furnitureViewModel.delete(id);
+                    finish();
+                });
             });
         }
     }

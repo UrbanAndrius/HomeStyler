@@ -3,11 +3,12 @@ package com.andrius.homestyler.ui;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.andrius.homestyler.R;
+import com.andrius.homestyler.util.ImageUtil;
+import com.andrius.homestyler.view_model.FurnitureViewModel;
 import com.google.ar.core.Anchor;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.rendering.ModelRenderable;
@@ -18,6 +19,7 @@ import java.io.File;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 public class ArActivity extends AppCompatActivity {
 
@@ -28,29 +30,38 @@ public class ArActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ar);
 
-        String path = Environment.getExternalStorageDirectory().getPath();
-
-        File model = new File(path + "/model.sfb");
-
-        Log.e("TAG", model.length() + "");
-
         if (Build.VERSION.SDK_INT > 25) {
+
             arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.arFragment);
 
-            arFragment.setOnTapArPlaneListener((hitResult, plane, motionEvent) -> {
-                Anchor anchor = hitResult.createAnchor();
+            FurnitureViewModel furnitureViewModel = ViewModelProviders.of(this).get(FurnitureViewModel.class);
 
-                ModelRenderable.builder()
-                        .setSource(this, Uri.fromFile(model))
-                        .build()
-                        .thenAccept(modelRenderable -> {
-                            addModelToScene(anchor, modelRenderable);
-                        })
-                        .exceptionally(throwable -> {
-                            Log.e("TAG", throwable.toString());
-                            return null;
-                        });
-            });
+            Bundle extras = getIntent().getExtras();
+
+            if (extras != null) {
+                int id = extras.getInt("id");
+
+                furnitureViewModel.getById(id, furniture -> {
+                    String modelBase64 = furniture.getModelBase64();
+
+                    File model = ImageUtil.writeToFile(modelBase64);
+
+                    arFragment.setOnTapArPlaneListener((hitResult, plane, motionEvent) -> {
+                        Anchor anchor = hitResult.createAnchor();
+
+                        ModelRenderable.builder()
+                                .setSource(this, Uri.fromFile(model))
+                                .build()
+                                .thenAccept(modelRenderable -> {
+                                    addModelToScene(anchor, modelRenderable);
+                                })
+                                .exceptionally(throwable -> {
+                                    Log.e("TAG", throwable.toString());
+                                    return null;
+                                });
+                    });
+                });
+            }
         } else {
             Toast.makeText(this, "not supported", Toast.LENGTH_SHORT).show();
             finish();

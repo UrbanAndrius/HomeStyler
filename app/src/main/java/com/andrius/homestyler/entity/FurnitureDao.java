@@ -26,4 +26,7 @@ public interface FurnitureDao {
 
     @Query("SELECT * FROM furniture_table")
     LiveData<List<Furniture>> getAllFurniture();
+
+    @Query("SELECT * FROM furniture_table WHERE id = :id")
+    Furniture getById(int id);
 }

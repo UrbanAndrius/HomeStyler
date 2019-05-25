@@ -18,6 +18,10 @@ public class FurnitureViewModel extends AndroidViewModel {
     private FurnitureDao furnitureDao;
     private LiveData<List<Furniture>> allFurniture;
 
+    public interface FurnitureCallBack {
+        void onFurnitureRetrieve(Furniture furniture);
+    }
+
     public FurnitureViewModel(@NonNull Application application) {
         super(application);
         FurnitureDatabase instance = FurnitureDatabase.getInstance(application);
@@ -35,6 +39,13 @@ public class FurnitureViewModel extends AndroidViewModel {
 
     public void delete(Furniture furniture) {
         AsyncTask.execute(() -> furnitureDao.delete(furniture));
+    }
+
+    public void getById(int id, FurnitureCallBack callback) {
+        AsyncTask.execute(() -> {
+            Furniture furniture = furnitureDao.getById(id);
+            callback.onFurnitureRetrieve(furniture);
+        });
     }
 
     public void delete(int id) {
