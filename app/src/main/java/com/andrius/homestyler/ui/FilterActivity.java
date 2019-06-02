@@ -20,6 +20,8 @@ public class FilterActivity extends AppCompatActivity {
     Button btnClearFilter;
     @BindView(R.id.spColor)
     Spinner spColor;
+    @BindView(R.id.btnBack)
+    Button btnBack;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,6 +29,8 @@ public class FilterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_filter);
 
         ButterKnife.bind(this);
+
+        btnBack.setOnClickListener(view -> finish());
 
         btnFilter.setOnClickListener(view -> finishWithResult(spColor.getSelectedItem().toString()));
 
