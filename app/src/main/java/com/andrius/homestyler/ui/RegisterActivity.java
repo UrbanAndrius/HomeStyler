@@ -36,6 +36,8 @@ public class RegisterActivity extends AppCompatActivity {
     EditText etPasswordConfirm;
     @BindView(R.id.btnRegister)
     Button btnRegister;
+    @BindView(R.id.btnBack)
+    Button btnBack;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,6 +47,8 @@ public class RegisterActivity extends AppCompatActivity {
         prefs = getSharedPreferences(PREF_FILE, MODE_PRIVATE);
 
         ButterKnife.bind(this);
+
+        btnBack.setOnClickListener(view -> finish());
 
         btnRegister.setOnClickListener(view -> register());
     }

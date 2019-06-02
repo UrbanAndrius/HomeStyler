@@ -4,13 +4,12 @@
     android:layout_height="match_parent"
     android:background="@color/lightGray">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/toolBar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/colorPrimary"
-        android:elevation="8dp"
-        android:orientation="horizontal">
+        android:elevation="8dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -21,7 +20,7 @@
             android:textSize="26sp"
             android:textStyle="bold" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFurniture"

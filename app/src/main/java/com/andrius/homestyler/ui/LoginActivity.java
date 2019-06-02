@@ -74,9 +74,9 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if (success) {
-            etPassword.setText("");
             Toast.makeText(this, "login", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, MainActivity.class));
+            finish();
         } else {
             Toast.makeText(this, "fail", Toast.LENGTH_SHORT).show();
         }
