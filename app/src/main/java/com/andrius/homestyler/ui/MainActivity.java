@@ -3,7 +3,6 @@ package com.andrius.homestyler.ui;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.widget.Button;
 
@@ -11,6 +10,7 @@ import com.andrius.homestyler.R;
 import com.andrius.homestyler.view_model.FurnitureViewModel;
 import com.github.florent37.runtimepermission.RuntimePermission;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +24,11 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView rvFurniture;
     @BindView(R.id.btnAddFurniture)
     Button btnAddFurniture;
+    @BindView(R.id.btnFilter)
+    Button btnFilter;
+
+    private FurnitureAdapter furnitureAdapter;
+    FurnitureViewModel furnitureViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,24 +39,40 @@ public class MainActivity extends AppCompatActivity {
 
         RuntimePermission.askPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
-                .onAccepted(result -> {
-                    btnAddFurniture.setOnClickListener(view ->
-                            startActivity(new Intent(this, AddFurnitureActivity.class)));
+                .onAccepted(result -> init()).ask();
+    }
 
-                    FurnitureAdapter furnitureAdapter = new FurnitureAdapter(furniture -> {
-                        Intent intent = new Intent(this, FurniturePreviewActivity.class);
-                        intent.putExtra("id", furniture.getId());
-                        startActivity(intent);
-                    });
+    private void init() {
+        btnFilter.setOnClickListener(view -> {
+            startActivityForResult(new Intent(this, FilterActivity.class), 123);
+        });
 
-                    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-                    rvFurniture.setLayoutManager(mLayoutManager);
-                    rvFurniture.setAdapter(furnitureAdapter);
+        btnAddFurniture.setOnClickListener(view ->
+                startActivity(new Intent(this, AddFurnitureActivity.class)));
 
-                    FurnitureViewModel furnitureViewModel = ViewModelProviders.of(this).get(FurnitureViewModel.class);
+        furnitureAdapter = new FurnitureAdapter(furniture -> {
+            Intent intent = new Intent(this, FurniturePreviewActivity.class);
+            intent.putExtra("id", furniture.getId());
+            startActivity(intent);
+        });
 
-                    furnitureViewModel.getAllFurniture().observe(this, furnitureAdapter::setFurnitureList);
-                }).ask();
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        rvFurniture.setLayoutManager(mLayoutManager);
+        rvFurniture.setAdapter(furnitureAdapter);
+
+        furnitureViewModel = ViewModelProviders.of(this).get(FurnitureViewModel.class);
+
+        furnitureViewModel.getAllFurniture().observe(this, furnitureAdapter::setFurnitureList);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 123 && resultCode == RESULT_OK && data != null) {
+            String color = data.getStringExtra("color");
+            log(color);
+            furnitureAdapter.setFilter(color);
+        }
     }
 
     public static void log(String text) {

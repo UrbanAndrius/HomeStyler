@@ -21,7 +21,9 @@ import butterknife.ButterKnife;
 public class FurnitureAdapter extends RecyclerView.Adapter<FurnitureAdapter.Holder> {
 
     private List<Furniture> furnitureList = new ArrayList<>();
+    private List<Furniture> filteredList = new ArrayList<>();
     private OnFurnitureClick furnitureClick;
+    private String colorFilter = "";
 
     public interface OnFurnitureClick {
         void onFurnitureClick(Furniture furniture);
@@ -33,7 +35,28 @@ public class FurnitureAdapter extends RecyclerView.Adapter<FurnitureAdapter.Hold
 
     void setFurnitureList(List<Furniture> furnitureList) {
         this.furnitureList = furnitureList;
+        filteredList = getFilteredList();
         notifyDataSetChanged();
+    }
+
+    void setFilter(String color) {
+        colorFilter = color;
+        filteredList = getFilteredList();
+        notifyDataSetChanged();
+    }
+
+    private List<Furniture> getFilteredList() {
+        List<Furniture> filtered = new ArrayList<>();
+        for (Furniture furniture : furnitureList) {
+            if (!colorFilter.isEmpty()) {
+                if (furniture.getColor().toLowerCase().equals(colorFilter.toLowerCase())) {
+                    filtered.add(furniture);
+                }
+            } else {
+                filtered.add(furniture);
+            }
+        }
+        return filtered;
     }
 
     @NonNull
@@ -45,7 +68,7 @@ public class FurnitureAdapter extends RecyclerView.Adapter<FurnitureAdapter.Hold
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-        Furniture furniture = furnitureList.get(position);
+        Furniture furniture = filteredList.get(position);
         holder.itemView.setOnClickListener(view -> furnitureClick.onFurnitureClick(furniture));
         holder.tvColor.setText(furniture.getColor().toUpperCase());
         holder.tvPrice.setText(furniture.getFormatedPrice());
@@ -55,7 +78,7 @@ public class FurnitureAdapter extends RecyclerView.Adapter<FurnitureAdapter.Hold
 
     @Override
     public int getItemCount() {
-        return furnitureList.size();
+        return filteredList.size();
     }
 
     class Holder extends RecyclerView.ViewHolder {

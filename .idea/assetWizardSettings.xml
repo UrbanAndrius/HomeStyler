@@ -28,8 +28,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_arrow_back" />
-                            <entry key="sourceFile" value="C:\Users\Andrius" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="ic_filter" />
+                            <entry key="sourceFile" value="C:\Users\Andrius\Desktop\filter-tool-black-shape.svg" />
                           </map>
                         </option>
                       </PersistentState>
