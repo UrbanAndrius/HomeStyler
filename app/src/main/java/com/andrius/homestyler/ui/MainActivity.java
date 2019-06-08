@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Button;
 
 import com.andrius.homestyler.R;
+import com.andrius.homestyler.entity.FurnitureFilter;
 import com.andrius.homestyler.view_model.FurnitureViewModel;
 import com.github.florent37.runtimepermission.RuntimePermission;
 
@@ -44,7 +45,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         btnFilter.setOnClickListener(view -> {
-            startActivityForResult(new Intent(this, FilterActivity.class), 123);
+            Intent intent = new Intent(this, FilterActivity.class);
+            FurnitureFilter filter = furnitureAdapter.getFilter();
+            intent.putExtra("color", filter.getColor());
+            intent.putExtra("minPrice", filter.getMinPrice());
+            intent.putExtra("maxPrice", filter.getMaxPrice());
+            intent.putExtra("type", filter.getType());
+            startActivityForResult(intent, 123);
         });
 
         btnAddFurniture.setOnClickListener(view ->
@@ -70,8 +77,11 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 123 && resultCode == RESULT_OK && data != null) {
             String color = data.getStringExtra("color");
-            log(color);
-            furnitureAdapter.setFilter(color);
+            int minPrice = data.getIntExtra("minPrice", 0);
+            int maxPrice = data.getIntExtra("maxPrice", 0);
+            String type = data.getStringExtra("type");
+            FurnitureFilter filter = new FurnitureFilter(color, minPrice, maxPrice, type);
+            furnitureAdapter.setFilter(filter);
         }
     }
 

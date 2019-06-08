@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.andrius.homestyler.R;
 import com.andrius.homestyler.entity.Furniture;
+import com.andrius.homestyler.entity.FurnitureFilter;
 import com.andrius.homestyler.util.ImageUtil;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class FurnitureAdapter extends RecyclerView.Adapter<FurnitureAdapter.Hold
     private List<Furniture> furnitureList = new ArrayList<>();
     private List<Furniture> filteredList = new ArrayList<>();
     private OnFurnitureClick furnitureClick;
-    private String colorFilter = "";
+    private FurnitureFilter filter = new FurnitureFilter();
 
     public interface OnFurnitureClick {
         void onFurnitureClick(Furniture furniture);
@@ -39,22 +40,26 @@ public class FurnitureAdapter extends RecyclerView.Adapter<FurnitureAdapter.Hold
         notifyDataSetChanged();
     }
 
-    void setFilter(String color) {
-        colorFilter = color;
+    void setFilter(FurnitureFilter filter) {
+        this.filter = filter;
         filteredList = getFilteredList();
         notifyDataSetChanged();
+    }
+
+    FurnitureFilter getFilter() {
+        return filter;
     }
 
     private List<Furniture> getFilteredList() {
         List<Furniture> filtered = new ArrayList<>();
         for (Furniture furniture : furnitureList) {
-            if (!colorFilter.isEmpty()) {
-                if (furniture.getColor().toLowerCase().equals(colorFilter.toLowerCase())) {
-                    filtered.add(furniture);
-                }
-            } else {
-                filtered.add(furniture);
+
+            if (!filter.matchesColor(furniture) || !filter.matchesType(furniture)
+                    || !filter.inPriceRange(furniture)) {
+                continue;
             }
+
+            filtered.add(furniture);
         }
         return filtered;
     }

@@ -9,7 +9,23 @@
         <item>white</item>
     </string-array>
 
+    <string-array name="furniture_colors_filter">
+        <item> </item>
+        <item>red</item>
+        <item>green</item>
+        <item>blue</item>
+        <item>black</item>
+        <item>white</item>
+    </string-array>
+
     <string-array name="furniture_types">
+        <item>Sofa</item>
+        <item>Chair</item>
+        <item>Table</item>
+    </string-array>
+
+    <string-array name="furniture_types_filter">
+        <item> </item>
         <item>Sofa</item>
         <item>Chair</item>
         <item>Table</item>
